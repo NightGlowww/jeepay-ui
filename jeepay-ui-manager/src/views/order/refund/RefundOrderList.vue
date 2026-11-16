@@ -71,6 +71,8 @@
       <JeepayTable
         @btnLoadClose="vdata.btnLoading = false"
         ref="infoTable"
+        :scroll="{ x: 960 }"
+        table-layout="fixed"
         :initData="true"
         :reqTableDataFunc="reqTableDataFunc"
         :tableColumns="vdata.tableColumns"
@@ -117,48 +119,21 @@
           </template>
 
           <template v-if="column.key === 'payOrder'">
-            <div class="order-list">
-              <p>
-                <span style="color: #729ed5; background: #e7f5f7">支付</span>
-                {{ record.payOrderId }}
-              </p>
-              <p v-if="record.channelPayOrderNo" style="margin-bottom: 0">
-                <span style="color: #fff; background: #e09c4d">渠道</span>
-                <a-tooltip
-                  placement="bottom"
-                  style="font-weight: normal"
-                  v-if="record.channelPayOrderNo.length > record.payOrderId.length"
-                >
-                  <template slot="title">
-                    <span>{{ record.channelPayOrderNo }}</span>
-                  </template>
-                  {{ changeStr2ellipsis(record.channelPayOrderNo, record.payOrderId.length) }}
-                </a-tooltip>
-                <span style="font-weight: normal" v-else>{{ record.channelPayOrderNo }}</span>
-              </p>
+            <div>
+              <JeepayOrderNo label="支付" :value="record.payOrderId" />
+              <JeepayOrderNo
+                v-if="record.channelPayOrderNo"
+                label="渠道"
+                :value="record.channelPayOrderNo"
+                tone="channel"
+              />
             </div>
           </template>
 
           <template v-if="column.key === 'refund'">
-            <div class="order-list">
-              <p>
-                <span style="color: #729ed5; background: #e7f5f7">退款</span>
-                {{ record.refundOrderId }}
-              </p>
-              <p style="margin-bottom: 0">
-                <span style="color: #56cf56; background: #d8eadf">商户</span>
-                <a-tooltip
-                  placement="bottom"
-                  style="font-weight: normal"
-                  v-if="record.mchRefundNo.length > record.payOrderId.length"
-                >
-                  <template slot="title">
-                    <span>{{ record.mchRefundNo }}</span>
-                  </template>
-                  {{ changeStr2ellipsis(record.mchRefundNo, record.refundOrderId.length) }}
-                </a-tooltip>
-                <span style="font-weight: normal" v-else>{{ record.mchRefundNo }}</span>
-              </p>
+            <div>
+              <JeepayOrderNo label="退款" :value="record.refundOrderId" />
+              <JeepayOrderNo label="商户" :value="record.mchRefundNo" tone="merchant" />
             </div>
           </template>
           <template v-if="column.key === 'op'">
@@ -422,6 +397,7 @@
   </page-header-wrapper>
 </template>
 <script setup lang="ts">
+import JeepayOrderNo from '@/components/JeepayTable/JeepayOrderNo.vue'
 import { API_URL_REFUND_ORDER_LIST, req } from '@/api/manage'
 import moment from 'moment'
 import { reactive, ref, getCurrentInstance } from 'vue'
@@ -506,34 +482,4 @@ function disabledDate(current) {
 function onClose() {
   vdata.visible = false
 }
-function changeStr2ellipsis(orderNo, baseLength) {
-  const halfLengh = Math.floor(baseLength / 2)
-  return (
-    orderNo.substring(0, halfLengh - 1) +
-    '...' +
-    orderNo.substring(orderNo.length - halfLengh, orderNo.length)
-  )
-}
 </script>
-<style lang="less" scoped>
-.order-list {
-  -webkit-text-size-adjust: none;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-
-  p {
-    white-space: nowrap;
-    span {
-      display: inline-block;
-      font-weight: 800;
-      height: 16px;
-      line-height: 16px;
-      width: 35px;
-      border-radius: 5px;
-      text-align: center;
-      margin-right: 2px;
-    }
-  }
-}
-</style>

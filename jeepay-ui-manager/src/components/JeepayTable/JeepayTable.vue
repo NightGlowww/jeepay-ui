@@ -1,5 +1,5 @@
 <template>
-  <div style="padding: 30px">
+  <div class="jeepay-table-container" style="padding: 30px">
     <!-- 操作行： 包括了新增等按钮 和 自动刷新等操作 -->
     <div class="but_auto">
       <div class="left_but">
@@ -54,6 +54,8 @@
       :loading="showLoading"
       :row-selection="rowSelection"
       :row-key="rowKey"
+      :scroll="scroll"
+      :table-layout="tableLayout"
       @resize-column="
         (w, col) => {
           col.width = w
@@ -89,6 +91,8 @@ const props: any = defineProps({
   initData: { type: Boolean, default: true }, // 初始化列表数据， 默认true
   autoRefTableConfig: { type: Object, default: null }, // {defaultOpen: true, interval: 10}
   rowSelection: { type: Object, default: null },
+  scroll: { type: Object, default: undefined },
+  tableLayout: { type: String, default: undefined },
   rowKey: { type: [String, Function], default: () => {} }, // 定义rowKey 如果不定义将会出现（树状结构出问题， checkbox不消失等）
 })
 
@@ -262,6 +266,11 @@ defineExpose({
 </style>
 
 <style lang="less" scoped>
+.jeepay-table-container {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .but_auto {
   display: flex;
   justify-content: space-between;

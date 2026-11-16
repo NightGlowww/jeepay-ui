@@ -58,6 +58,8 @@
       <JeepayTable
         @btnLoadClose="vdata.btnLoading = false"
         ref="infoTable"
+        :scroll="{ x: 1250 }"
+        table-layout="fixed"
         :initData="true"
         :reqTableDataFunc="reqTableDataFunc"
         :tableColumns="vdata.tableColumns"
@@ -99,39 +101,15 @@
             </a-tag>
           </template>
           <template v-if="column.key === 'orderNo'">
-            <div class="order-list">
-              <p>
-                <span style="color: #729ed5; background: #e7f5f7">转账</span>
-                {{ record.transferId }}
-              </p>
-              <p>
-                <span style="color: #56cf56; background: #d8eadf">商户</span>
-                <a-tooltip
-                  placement="bottom"
-                  style="font-weight: normal"
-                  v-if="record.mchOrderNo.length > record.transferId.length"
-                >
-                  <template slot="title">
-                    <span>{{ record.mchOrderNo }}</span>
-                  </template>
-                  {{ changeStr2ellipsis(record.mchOrderNo, record.transferId.length) }}
-                </a-tooltip>
-                <span style="font-weight: normal" v-else>{{ record.mchOrderNo }}</span>
-              </p>
-              <p v-if="record.channelOrderNo">
-                <span style="color: #fff; background: #e09c4d">渠道</span>
-                <a-tooltip
-                  placement="bottom"
-                  style="font-weight: normal"
-                  v-if="record.channelOrderNo.length > record.transferId.length"
-                >
-                  <template slot="title">
-                    <span>{{ record.channelOrderNo }}</span>
-                  </template>
-                  {{ changeStr2ellipsis(record.channelOrderNo, record.transferId.length) }}
-                </a-tooltip>
-                <span style="font-weight: normal" v-else>{{ record.channelOrderNo }}</span>
-              </p>
+            <div>
+              <JeepayOrderNo label="转账" :value="record.transferId" />
+              <JeepayOrderNo label="商户" :value="record.mchOrderNo" tone="merchant" />
+              <JeepayOrderNo
+                v-if="record.channelOrderNo"
+                label="渠道"
+                :value="record.channelOrderNo"
+                tone="channel"
+              />
             </div>
           </template>
           <template v-if="column.key === 'op'">
@@ -155,6 +133,7 @@
   </page-header-wrapper>
 </template>
 <script setup lang="ts">
+import JeepayOrderNo from '@/components/JeepayTable/JeepayOrderNo.vue'
 import TransferOrderDetail from './TransferOrderDetail.vue'
 import { API_URL_TRANSFER_ORDER_LIST, req } from '@/api/manage'
 import moment from 'moment'
@@ -216,35 +195,4 @@ function disabledDate(current) {
   // 今日之后日期不可选
   return current && current > moment().endOf('day')
 }
-function changeStr2ellipsis(orderNo, baseLength) {
-  const halfLengh = Math.floor(baseLength / 2)
-  return (
-    orderNo.substring(0, halfLengh - 1) +
-    '...' +
-    orderNo.substring(orderNo.length - halfLengh, orderNo.length)
-  )
-}
 </script>
-<style lang="less" scoped>
-.order-list {
-  -webkit-text-size-adjust: none;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-
-  p {
-    margin: 5px 0;
-    white-space: nowrap;
-    span {
-      display: inline-block;
-      font-weight: 800;
-      height: 16px;
-      line-height: 16px;
-      width: 35px;
-      border-radius: 5px;
-      text-align: center;
-      margin-right: 2px;
-    }
-  }
-}
-</style>
