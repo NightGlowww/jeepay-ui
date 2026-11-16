@@ -9,8 +9,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "test:oauth": "vitest run",
-    "test:oauth:browser": "playwright test"
+    "test:oauth": "vitest run"
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
@@ -19,7 +18,6 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
     "@vitejs/plugin-vue": "^4.0.0",
     "jsdom": "^22.1.0",
     "postcss-pxtorem": "^6.0.0",

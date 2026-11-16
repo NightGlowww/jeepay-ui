@@ -23,10 +23,10 @@
 (cd jeepay-ui-merchant && npm ci && npm run test:merchant-config && npm run build)
 
 # 聚合码收银台
-(cd jeepay-ui-cashier && npm ci && npm run test:oauth && npm run build && npx playwright install chromium && npm run test:oauth:browser)
+(cd jeepay-ui-cashier && npm ci && npm run test:oauth && npm run build)
 ```
 
-Linux 缺少浏览器系统依赖时，使用 `npx playwright install --with-deps chromium`。商户配置测试范围见 [测试说明](jeepay-ui-merchant/tests/README.md)。
+商户配置测试范围见 [测试说明](jeepay-ui-merchant/tests/README.md)。收银台 CI 使用 jsdom 运行实际 Vue 应用与路由的 OAuth 回归，不安装或启动浏览器；手工浏览器检查入口见[收银台说明](jeepay-ui-cashier/README.md)。
 
 - 修复尽量附带能复现原问题的回归测试，先确认旧行为失败、修复后通过。暂不能自动化时，在 PR 说明原因和可重复的人工步骤。
 - 涉及页面交互时，记录正常路径、异常返回、重复点击、取消/关闭后重开、前进/后退、刷新和权限差异等受影响场景；UI 变化附脱敏截图。
