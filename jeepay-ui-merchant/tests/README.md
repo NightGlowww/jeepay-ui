@@ -14,7 +14,8 @@ npm run build
 In restricted environments, add `--cache /tmp/jeepay-npm-cache` to `npm ci`.
 
 The tests compile and mount the actual `MchPayConfigAddOrEdit.vue` component
-in jsdom. The API module is mocked, so no backend, credentials, live merchant
+and the merchant/manager/ISV `AlipayPayConfig.vue` components in jsdom. The API
+module is mocked, so no backend, credentials, live merchant
 settings, file uploads or payment operations are used. Ant Design's UI and
 validation shell is stubbed, including its default keep-mounted drawer
 behavior. The component's loading, schema selection/parsing, binding and
@@ -31,6 +32,12 @@ Covered behavior:
   payload, along with placeholder-only keys
 - Cancel does not save; reopening reloads saved values and switching merchant
   types replaces stale form fields
+- All three Alipay forms default new and legacy configurations to `USER_ID`,
+  bind a selected `OPEN_ID` into the save request, and preserve it when reopening
+
+The Alipay test replaces Ant Design's radio shell with a native select; the real
+component options, `v-model`, loading defaults and save handlers run unchanged.
+Vue is deduplicated so adjacent manager SFCs use the same runtime as the tests.
 
 This is a focused runtime regression, not real-browser Ant Design validation,
 backend integration or payment testing. To verify that it detects the original
