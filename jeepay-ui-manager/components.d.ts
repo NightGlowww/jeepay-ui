@@ -62,6 +62,7 @@ declare module 'vue' {
     JeepayDrChildren: typeof import('./src/components/JeepayTable/JeepayDrChildren.vue')['default']
     JeepayLayout: typeof import('./src/components/JeepayLayout/JeepayLayout.vue')['default']
     JeepayMenu: typeof import('./src/components/JeepayTable/JeepayMenu.vue')['default']
+    JeepayOrderNo: typeof import('./src/components/JeepayTable/JeepayOrderNo.vue')['default']
     JeepayTable: typeof import('./src/components/JeepayTable/JeepayTable.vue')['default']
     JeepayTableColState: typeof import('./src/components/JeepayTable/JeepayTableColState.vue')['default']
     JeepayTableColumns: typeof import('./src/components/JeepayTable/JeepayTableColumns.vue')['default']
