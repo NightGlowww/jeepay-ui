@@ -49,6 +49,18 @@
           </a-form-item>
         </a-col>
         <a-col span="24">
+          <a-form-item
+            label="用户标识模式"
+            name="userIdType"
+            extra="OAuth 授权与 JSAPI 下单使用同一标识模式，请与支付宝开放平台应用配置保持一致。"
+          >
+            <a-radio-group v-model:value="vdata.ifParams.userIdType">
+              <a-radio value="USER_ID">USER_ID</a-radio>
+              <a-radio value="OPEN_ID">OPEN_ID</a-radio>
+            </a-radio-group>
+          </a-form-item>
+        </a-col>
+        <a-col span="24">
           <a-form-item label="应用私钥" name="privateKey">
             <a-textarea
               v-model:value="vdata.ifParams.privateKey"
@@ -292,6 +304,7 @@ function show(appId, record) {
   // 参数配置对象，数据初始化
   vdata.ifParams = {
     sandbox: 0,
+    userIdType: 'USER_ID',
     signType: 'RSA2',
     useCert: 0,
     privateKey: '',
@@ -312,6 +325,7 @@ function getMchPayConfig() {
     if (res && res.ifParams) {
       vdata.saveObject = res
       vdata.ifParams = JSON.parse(res.ifParams)
+      vdata.ifParams.userIdType = vdata.ifParams.userIdType || 'USER_ID'
 
       vdata.ifParams.privateKey_ph = vdata.ifParams.privateKey
       vdata.ifParams.privateKey = ''

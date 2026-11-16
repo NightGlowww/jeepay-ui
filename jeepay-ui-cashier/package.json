@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test:oauth": "vitest run"
   },
   "dependencies": {
     "amfe-flexible": "^2.2.1",
@@ -18,7 +19,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "jsdom": "^22.1.0",
     "postcss-pxtorem": "^6.0.0",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vitest": "^4.1.11"
   }
 }
